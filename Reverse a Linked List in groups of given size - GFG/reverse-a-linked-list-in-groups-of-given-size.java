@@ -75,32 +75,53 @@ class Node
         next = null;
     }
 }
+1 2 3 4 5 7 8 9  
+0 1 2 3 4 5 6 7 
 
 */
 
 class Solution
 {
+    public static void reverse(ArrayList<Integer> list, int strt, int end){
+        while(strt <= end){
+            int a = list.get(strt), b = list.get(end);
+            list.set(end, a);
+            list.set(strt, b);
+            strt++; end--;
+        }
+    }
     public static Node reverse(Node node, int k)
     {
         //Your code here
-        Node current = node;
-        Node prev = null;
-        Node next = null;
-        int count = 0;
-
-        while (current != null && count < k) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-            count++;
+        Node curr = node;
+        ArrayList<Integer> list = new ArrayList<>();
+        while(curr != null){
+            list.add(curr.data);
+            curr = curr.next;
         }
-
-        if (next != null) {
-            node.next = reverse(next, k);
+        
+        int n = list.size();
+        int i=0;
+        while((i+k) < n){
+            reverse(list, i, i+k-1);
+            i += k;
         }
-
-        return prev;
+        if(i != n){
+            reverse(list, i, n-1);
+        }
+        
+        i = 0;
+        Node head = node;
+        while(head != null){
+            head.data = list.get(i);
+            i++;
+            head = head.next;
+        }
+        
+        return node;
     }
 }
+
+
+
 
