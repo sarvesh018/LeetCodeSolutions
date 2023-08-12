@@ -39,36 +39,39 @@ class GFG{
 
 class Solution 
 {
-    static int lower_bound(ArrayList<Integer> arr, int ele){
-        int low = 0, high = arr.size()-1;
+    //Function to find length of longest increasing subsequence.
+    static int lowerBound(ArrayList<Integer> list, int k){
+        int low = 0, high = list.size()-1;
         int res = -1;
         while(low <= high){
             int mid = (low+high)>>>1;
-            if(arr.get(mid) >= ele){
-                res = mid;
+            if(list.get(mid) >= k){
                 high = mid-1;
+                res = mid;
             }
-            else if(arr.get(mid) < ele){
-                low = mid+1;
+            else{
+                low = low+1;
             }
         }
         return res;
     }
-    static int longestSubsequence(int n, int arr[])
+    // 0 4 12 -> 2
+    static int longestSubsequence(int size, int a[])
     {
         // code here
         ArrayList<Integer> list = new ArrayList<>();
-        int len = 0;
-        list.add(arr[0]);
-        for(int i=1; i<n; i++){
-            if(list.get(list.size()-1) < arr[i]){
-                list.add(arr[i]);
+        list.add(a[0]);
+        int res = 1;
+        for(int i=1; i<size; i++){
+            if(a[i] > list.get(list.size()-1)){
+                list.add(a[i]);
+                res++;
             }
             else{
-                int ind = lower_bound(list, arr[i]);
-                list.set(ind, arr[i]);
+                int ind = lowerBound(list, a[i]);
+                list.set(ind, a[i]);
             }
         }
-        return list.size();
+        return res;
     }
 } 
