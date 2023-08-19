@@ -42,46 +42,28 @@ class Solution
     static ArrayList<Integer> subarraySum(int[] arr, int n, int s) 
     {
         // Your code here
-        // int sum = 0;
         ArrayList<Integer> list = new ArrayList<>();
-        // Map<Integer, Integer> map = new HashMap<>();
-        // for(int i = 0; i<n; i++){
-        //     sum += arr[i];
-        //     if(map.containsKey(sum - s)){
-        //         list.add(map.get(sum-s)+1);
-        //         list.add(i+1);
-        //         break;
-        //     }
-          
-        //     map.put(sum, i);
-            
-        // }
-        
-        // return list;
         if(s==0){
             list.add(-1);
             return list;
         }
-        int strt = 0, end = 0;
-        int sum = arr[0];
-        while(end<n){
+        int l = 0, r = 0, sum = 0;
+        while(r<n){
+            sum += arr[r];
+            while(sum > s){
+                sum -= arr[l];
+                l++;
+            }
             if(sum == s){
-                list.add(strt+1);
-                list.add(end+1);
-                return list;
+                list.add(l+1);
+                list.add(r+1);
+                break;
             }
-            else if(sum < s){
-                end++;
-                if(end<n){
-                    sum += arr[end];
-                }
-            }
-            else{
-                sum -= arr[strt];
-                strt++;
-            }
+            r++;
         }
-        list.add(-1);
+        if(list.size() == 0){
+            list.add(-1);
+        }
         return list;
     }
 }
